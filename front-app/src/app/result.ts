@@ -2,7 +2,7 @@
 export interface Result<T> {
     code: number;
     message: string;
-    data: [T];
+    data: T;
     count: number;
   }
   export interface checkres {

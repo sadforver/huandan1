@@ -71,7 +71,7 @@ class Container(models.Model):
     volume=models.FloatField(db_column='volume',verbose_name='体积',)
     ctnCyNo=models.CharField(db_column='ctn_cy_no',max_length=50,verbose_name='箱系统号',)
     enterTime=models.DateTimeField(db_column='enter_time',verbose_name='进场时间',)
-    planId=models.ForeignKey(Plan,db_column='plan_id',max_length=20,verbose_name='所属计划（外键）',on_delete=models.DO_NOTHING)
+    planId=models.ForeignKey(Plan,db_column='plan_id',max_length=20,null=True,verbose_name='所属计划（外键）',on_delete=models.DO_NOTHING)
 
     class Meta:
         managed=False,

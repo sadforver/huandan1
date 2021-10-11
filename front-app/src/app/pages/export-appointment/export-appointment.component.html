@@ -1,25 +1,70 @@
+<!-- <app-fuzzy-search (onSend)="onSend($event)"></app-fuzzy-search> -->
+<!-- <button nz-button nzType="primary" (click)="creatForm()">新增</button> -->
 <nz-table
-nzShowSizeChanger
-[nzData]="listOfRandomUser"
-[nzFrontPagination]="false"
-[nzLoading]="loading"
-[nzTotal]="total"
-[nzPageSize]="pageSize"
-[nzPageIndex]="pageIndex"
-(nzQueryParams)="onQueryParamsChange($event)"
+  [nzData]="plan"
+  [nzLoading]="loading"
+  [nzFrontPagination]="false"
+  nzShowSizeChanger
+  [nzScroll]="{ y: '650px' }"
+  [nzTotal]="total"
+  [nzPageSize]="pageSize"
+  [nzPageIndex]="pageIndex"
+  (nzQueryParams)="onQueryParamsChange($event)"
 >
-<thead>
-  <tr>
-    <th nzColumnKey="name" [nzSortFn]="true">Name</th>
-    <th nzColumnKey="gender" [nzFilters]="filterGender" [nzFilterFn]="true">Gender</th>
-    <th nzColumnKey="email" [nzSortFn]="true">Email</th>
-  </tr>
-</thead>
-<tbody>
-  <tr *ngFor="let data of listOfRandomUser">
-    <td>{{ data.name.first }} {{ data.name.last }}</td>
-    <td>{{ data.gender }}</td>
-    <td>{{ data.email }}</td>
-  </tr>
-</tbody>
+  <thead>
+    <tr>
+      <th nzColumnKey="planId" nzWidth="110px">计划号</th>
+      <th nzColumnKey="planTime" nzWidth="90px">预约时间</th>
+      <th nzColumnKey="expTime" nzWidth="70px">过期时间</th>
+      <th nzColumnKey="vessel" nzWidth="100px">船名</th>
+      <th nzColumnKey="voyage" nzWidth="120px">航次</th>
+      <th nzColumnKey="billNo" nzWidth="200px">提单号</th>
+      <th nzColumnKey="carGroupCode" nzWidth="70px">所属车队</th>
+      <th nzColumnKey="userId" nzWidth="160px">所属客户</th>
+      <th nzColumnKey="planStatus" nzWidth="100px">预约状态</th>
+      <th nzColumnKey="paymentStatus" nzWidth="120px">缴费状态</th>
+      <th nzColumnKey="documentPath" nzWidth="120px">提箱单图片</th>
+      <th nzColumnKey="remark" nzWidth="120px">备注</th>
+      <th nzColumnKey="KSCode" nzWidth="120px">KS码</th>
+      <th nzColumnKey="action" nzWidth="120px">操作</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr *ngFor="let dataItem of plan">
+      <td>{{ dataItem.planId }}</td>
+      <td>{{ dataItem.planTime }}</td>
+      <td>{{ dataItem.expTime }}</td>
+      <td>{{ dataItem.vessel }}</td>
+      <td>{{ dataItem.voyage }}</td>
+      <td>{{ dataItem.billNo }}</td>
+      <td>{{ dataItem.carGroupCode }}</td>
+      <td>{{ dataItem.userId }}</td>
+      <td>{{ dataItem.planStatus }}</td>
+      <td>{{ dataItem.paymentStatus }}</td>
+      <td>{{ dataItem.documentPath }}</td>
+      <td>{{ dataItem.remark }}</td>
+      <td>{{ dataItem.KSCode }}</td>
+      <td>
+        <!-- <button
+          nz-button
+          nzType="primary"
+          nzGhost
+          nzShape="round"
+          nzDanger
+          (click)="deletePlan(dataItem)"
+        >
+          删除
+        </button>
+        <button
+          nz-button
+          nzType="primary"
+          nzGhost
+          nzShape="round"
+          (click)="updatePlan(dataItem)"
+        >
+          编辑
+        </button> -->
+      </td>
+    </tr>
+  </tbody>
 </nz-table>

@@ -3,6 +3,7 @@ export interface planList {
     planTime: Date;
     expTime: Date;
     vessel:string;
+    voyage:string;
     billNo: string;
     carGroupCode: string;
     userId: string;
