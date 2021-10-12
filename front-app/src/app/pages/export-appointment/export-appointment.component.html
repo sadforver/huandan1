@@ -1,5 +1,13 @@
 <!-- <app-fuzzy-search (onSend)="onSend($event)"></app-fuzzy-search> -->
+<app-fuzzy-search></app-fuzzy-search>
 <!-- <button nz-button nzType="primary" (click)="creatForm()">新增</button> -->
+<div class="table-operations">
+  <button nz-button (click)="resetFilters()">全部</button>
+  <button nz-button (click)="setFilterAs('S')">预约成功</button>
+  <button nz-button (click)="setFilterAs('F')">预约失败</button>
+  <button nz-button (click)="setFilterAs('P')">审核通过</button>
+  <button nz-button (click)="setFilterAs('R')">审核驳回</button>
+</div>
 <nz-table
   [nzData]="plan"
   [nzLoading]="loading"
@@ -21,7 +29,15 @@
       <th nzColumnKey="billNo" nzWidth="200px">提单号</th>
       <th nzColumnKey="carGroupCode" nzWidth="70px">所属车队</th>
       <th nzColumnKey="userId" nzWidth="160px">所属客户</th>
-      <th nzColumnKey="planStatus" nzWidth="100px">预约状态</th>
+      <th
+        nzColumnKey="planStatus"
+        nzWidth="100px"
+        [nzFilters]="filterPlanStatus"
+        [nzFilterFn]="true"
+        [nzShowFilter]="true"
+      >
+        预约状态
+      </th>
       <th nzColumnKey="paymentStatus" nzWidth="120px">缴费状态</th>
       <th nzColumnKey="documentPath" nzWidth="120px">提箱单图片</th>
       <th nzColumnKey="remark" nzWidth="120px">备注</th>
