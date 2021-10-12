@@ -1,0 +1,72 @@
+<form nz-form [nzAutoTips]="autoTips" [formGroup]="validateForm">
+    <nz-form-item>
+      <nz-form-label [nzSpan]="7" nzRequired>学号</nz-form-label>
+      <nz-form-control [nzSpan]="12" nzValidatingTip="Validating...">
+        <input nz-input formControlName="studentId" placeholder="请输入学号" [readonly]="update" />
+      </nz-form-control>
+    </nz-form-item>
+    <nz-form-item>
+      <nz-form-label [nzSpan]="7" nzRequired>姓名</nz-form-label>
+      <nz-form-control [nzSpan]="12">
+        <input nz-input formControlName="studentName" placeholder="请输入姓名" />
+      </nz-form-control>
+    </nz-form-item>
+    <nz-form-item>
+      <nz-form-label [nzSpan]="7" nzRequired>性别</nz-form-label>
+      <nz-form-control [nzSpan]="12">
+        <nz-radio-group nzButtonStyle="solid" formControlName="gender">
+          <label nz-radio-button nzValue="F">女</label>
+          <label nz-radio-button nzValue="M">男</label>
+        </nz-radio-group>
+      </nz-form-control>
+    </nz-form-item>
+    <nz-form-item>
+      <nz-form-label [nzSpan]="7" nzRequired>入学年份</nz-form-label>
+      <nz-form-control [nzSm]="16" [nzXs]="24">
+        <nz-date-picker formControlName="schoolYear" nzFormat="yyyy-MM-dd"></nz-date-picker>
+      </nz-form-control>
+    </nz-form-item>
+    <nz-form-item>
+      <nz-form-label [nzSpan]="7" nzRequired>电话</nz-form-label>
+      <nz-form-control [nzSpan]="12">
+        <input nz-input formControlName="telephone" placeholder="请输入手机号" />
+      </nz-form-control>
+    </nz-form-item>
+    <nz-form-item>
+      <nz-form-label [nzSpan]="7" nzRequired>邮箱</nz-form-label>
+      <nz-form-control [nzSpan]="12">
+        <input nz-input formControlName="email" placeholder="请输入邮箱" />
+      </nz-form-control>
+    </nz-form-item>
+    <nz-form-item>
+      <nz-form-label [nzSpan]="7" nzRequired>学历</nz-form-label>
+      <nz-form-control [nzSpan]="12">
+        <nz-radio-group nzButtonStyle="solid" formControlName="studentType">
+          <label nz-radio-button nzValue="D">博士</label>
+          <label nz-radio-button nzValue="M">硕士</label>
+        </nz-radio-group>
+      </nz-form-control>
+    </nz-form-item>
+    <nz-form-item>
+      <nz-form-label [nzSpan]="7" nzRequired>身份证</nz-form-label>
+      <nz-form-control [nzSpan]="12">
+        <input nz-input formControlName="idNo" placeholder="请输入身份证号" />
+      </nz-form-control>
+    </nz-form-item>
+    <nz-form-item *ngIf="false">
+      <nz-form-label [nzSpan]="7" nzRequired>头像</nz-form-label>
+      <nz-form-control [nzSpan]="12">
+        <input nz-input formControlName="avatarUrl" placeholder="" />
+      </nz-form-control>
+    </nz-form-item>
+  </form>
+  <div *nzModalFooter>
+    <button nz-button nzType="default" (click)="close()">取消</button>
+    <button nz-button nzType="primary" (click)="addsubmit(validateForm.value)" [nzLoading]="isConfirmLoading" *ngIf="add">
+      提交
+    </button>
+    <button nz-button nzType="primary" (click)="updatesubmit(validateForm.value)" [nzLoading]="isConfirmLoading"
+      *ngIf="update">
+      编辑
+    </button>
+  </div>

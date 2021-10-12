@@ -2,8 +2,10 @@ import { Component, OnInit } from '@angular/core';
 import { NzTableQueryParams } from 'ng-zorro-antd/table';
 import { Observable,Observer,Subject } from 'rxjs';
 import { debounceTime, distinctUntilChanged, switchMap } from 'rxjs/operators';
+import { NzModalService } from 'ng-zorro-antd/modal';
 import { Result } from 'src/app/result';
 import { SharedService } from 'src/app/shared.service';
+import { ModalComponent } from './modal/modal.component';
 import { planList } from './planList';
 @Component({
   selector: 'app-export-appointment',
@@ -14,6 +16,8 @@ export class ExportAppointmentComponent implements OnInit {
 
   constructor(
     private sharedService:SharedService,
+    private modal: NzModalService,
+    // private msg: NzMessageService
   ) { }
   userId: string='1';
   plan: planList[]=[];
@@ -136,5 +140,41 @@ export class ExportAppointmentComponent implements OnInit {
       this.searchTerm,
       this.filter,
     );
+  }
+  creatForm(): void {
+    const modal = this.modal.create({
+      nzTitle: 'Add New Student',
+      nzContent: ModalComponent,
+      nzComponentParams: {
+        dataItem: {
+          studentId: '',
+          studentName: '',
+          gender: 'F',
+          schoolYear: new Date(),
+          telephone: '',
+          email: '',
+          studentType: 'M',
+          idNo: '',
+          avatarUrl: '',
+        },
+        method: 'add',
+      },
+      nzClosable: false,
+      nzFooter: null,
+    });
+    modal.afterClose.subscribe((res) => {
+      console.log('afterClose-res: ', res);
+      if (res) {
+        console.log('更新数据啦');
+        console.log(res);
+        this.loadDataFromServer(
+          this.userId,
+          this.pageIndex,
+          this.pageSize,
+          this.searchTerm,
+          []
+        );
+      }
+    });
   }
 }

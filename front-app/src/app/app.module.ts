@@ -13,14 +13,16 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { IconsProviderModule } from './icons-provider.module';
 import { NzLayoutModule } from 'ng-zorro-antd/layout';
 import { NzMenuModule } from 'ng-zorro-antd/menu';
-import { ExportAppointmentModule } from './pages/export-appointment/export-appointment.module';
+import { NzInputModule } from 'ng-zorro-antd/input';
 import { SidemenuComponent } from './sidemenu/sidemenu.component';
-import { FuzzySearchComponent } from './child/fuzzy-search/fuzzy-search.component';
+import { ModalComponent } from './pages/export-appointment/modal/modal.component';
+
+
 
 registerLocaleData(en);
 
 @NgModule({
-  declarations: [AppComponent, SidemenuComponent, FuzzySearchComponent],
+  declarations: [AppComponent, SidemenuComponent, ModalComponent],
   imports: [
     BrowserModule,
     AppRoutingModule,
@@ -30,9 +32,10 @@ registerLocaleData(en);
     IconsProviderModule,
     NzLayoutModule,
     NzMenuModule,
-    ExportAppointmentModule,
+    NzInputModule
+
   ],
-  exports:[FuzzySearchComponent],
+  exports:[],
   providers: [{ provide: NZ_I18N, useValue: en_US }],
   bootstrap: [AppComponent],
 })
