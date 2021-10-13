@@ -1,72 +1,61 @@
-<form nz-form [nzAutoTips]="autoTips" [formGroup]="validateForm">
-    <nz-form-item>
-      <nz-form-label [nzSpan]="7" nzRequired>学号</nz-form-label>
-      <nz-form-control [nzSpan]="12" nzValidatingTip="Validating...">
-        <input nz-input formControlName="studentId" placeholder="请输入学号" [readonly]="update" />
-      </nz-form-control>
-    </nz-form-item>
-    <nz-form-item>
-      <nz-form-label [nzSpan]="7" nzRequired>姓名</nz-form-label>
-      <nz-form-control [nzSpan]="12">
-        <input nz-input formControlName="studentName" placeholder="请输入姓名" />
-      </nz-form-control>
-    </nz-form-item>
-    <nz-form-item>
-      <nz-form-label [nzSpan]="7" nzRequired>性别</nz-form-label>
-      <nz-form-control [nzSpan]="12">
-        <nz-radio-group nzButtonStyle="solid" formControlName="gender">
-          <label nz-radio-button nzValue="F">女</label>
-          <label nz-radio-button nzValue="M">男</label>
-        </nz-radio-group>
-      </nz-form-control>
-    </nz-form-item>
-    <nz-form-item>
-      <nz-form-label [nzSpan]="7" nzRequired>入学年份</nz-form-label>
-      <nz-form-control [nzSm]="16" [nzXs]="24">
-        <nz-date-picker formControlName="schoolYear" nzFormat="yyyy-MM-dd"></nz-date-picker>
-      </nz-form-control>
-    </nz-form-item>
-    <nz-form-item>
-      <nz-form-label [nzSpan]="7" nzRequired>电话</nz-form-label>
-      <nz-form-control [nzSpan]="12">
-        <input nz-input formControlName="telephone" placeholder="请输入手机号" />
-      </nz-form-control>
-    </nz-form-item>
-    <nz-form-item>
-      <nz-form-label [nzSpan]="7" nzRequired>邮箱</nz-form-label>
-      <nz-form-control [nzSpan]="12">
-        <input nz-input formControlName="email" placeholder="请输入邮箱" />
-      </nz-form-control>
-    </nz-form-item>
-    <nz-form-item>
-      <nz-form-label [nzSpan]="7" nzRequired>学历</nz-form-label>
-      <nz-form-control [nzSpan]="12">
-        <nz-radio-group nzButtonStyle="solid" formControlName="studentType">
-          <label nz-radio-button nzValue="D">博士</label>
-          <label nz-radio-button nzValue="M">硕士</label>
-        </nz-radio-group>
-      </nz-form-control>
-    </nz-form-item>
-    <nz-form-item>
-      <nz-form-label [nzSpan]="7" nzRequired>身份证</nz-form-label>
-      <nz-form-control [nzSpan]="12">
-        <input nz-input formControlName="idNo" placeholder="请输入身份证号" />
-      </nz-form-control>
-    </nz-form-item>
-    <nz-form-item *ngIf="false">
-      <nz-form-label [nzSpan]="7" nzRequired>头像</nz-form-label>
-      <nz-form-control [nzSpan]="12">
-        <input nz-input formControlName="avatarUrl" placeholder="" />
-      </nz-form-control>
-    </nz-form-item>
-  </form>
-  <div *nzModalFooter>
-    <button nz-button nzType="default" (click)="close()">取消</button>
-    <button nz-button nzType="primary" (click)="addsubmit(validateForm.value)" [nzLoading]="isConfirmLoading" *ngIf="add">
-      提交
-    </button>
-    <button nz-button nzType="primary" (click)="updatesubmit(validateForm.value)" [nzLoading]="isConfirmLoading"
-      *ngIf="update">
-      编辑
-    </button>
+<form nz-form [formGroup]="validateForm" class="ant-advanced-search-form">
+  <div nz-row [nzGutter]="24">
+    <div nz-col [nzSpan]="8" *ngFor="let control of controlArray" [hidden]="!control.show">
+      <nz-form-item>
+        <nz-form-label [nzFor]="'field' + control.index">Field {{ control.index }}</nz-form-label>
+        <nz-form-control>
+          <input
+            nz-input
+            placeholder="placeholder"
+            [formControlName]="'field' + control.index"
+            [attr.id]="'field' + control.index"
+          />
+        </nz-form-control>
+      </nz-form-item>
+    </div>
   </div>
+  <div nz-row>
+    <div nz-col [nzSpan]="24" class="search-area">
+      <button nz-button [nzType]="'primary'">Search</button>
+      <button nz-button (click)="resetForm()">Clear</button>
+      <a class="collapse" (click)="toggleCollapse()">
+        Collapse
+        <i nz-icon [nzType]="isCollapse ? 'down' : 'up'"></i>
+      </a>
+    </div>
+  </div>
+  <nz-form-item *ngFor="let control of listOfControl; let i = index">
+    <nz-form-label [nzXs]="24" [nzSm]="4" *ngIf="i === 0" [nzFor]="control.controlInstance">
+      Passengers
+    </nz-form-label>
+    <nz-form-control
+      [nzXs]="24"
+      [nzSm]="20"
+      [nzOffset]="i === 0 ? 0 : 4"
+      nzErrorTip="Please input passenger's name or delete this field."
+    >
+      <input
+        class="passenger-input"
+        nz-input
+        placeholder="placeholder"
+        [attr.id]="control.id"
+        [formControlName]="control.controlInstance"
+      />
+      <i nz-icon nzType="minus-circle-o" class="dynamic-delete-button" (click)="removeField(control, $event)"></i>
+    </nz-form-control>
+  </nz-form-item>
+  <nz-form-item>
+    <nz-form-control [nzXs]="{ span: 24, offset: 0 }" [nzSm]="{ span: 20, offset: 4 }">
+      <button nz-button nzType="dashed" class="add-button" (click)="addField($event)">
+        <i nz-icon nzType="plus"></i>
+        Add field
+      </button>
+    </nz-form-control>
+  </nz-form-item>
+  <nz-form-item>
+    <nz-form-control [nzXs]="{ span: 24, offset: 0 }" [nzSm]="{ span: 20, offset: 4 }">
+      <button nz-button nzType="primary">Submit</button>
+    </nz-form-control>
+  </nz-form-item>
+</form>
+<div class="search-result-list">Search Result List</div>

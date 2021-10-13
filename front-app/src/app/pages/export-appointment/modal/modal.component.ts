@@ -1,5 +1,5 @@
 import { Component, Input, OnInit } from '@angular/core';
-import { FormBuilder, FormGroup } from '@angular/forms';
+import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { Observable, Subject } from 'rxjs';
 import { exhaustMap } from 'rxjs/operators';
 import { Result } from 'src/app/result';
@@ -27,6 +27,61 @@ export class ModalComponent implements OnInit {
   private updateForm$ = new Subject<planList>();
   submitresult$!: Observable<Result<planList>>;
   updateresult$!: Observable<Result<planList>>;
+  controlArray: Array<{ index: number; show: boolean }> = [];
+  listOfControl: Array<{ id: number; controlInstance: string }> = [];
+  isCollapse = true;
+  toggleCollapse(): void {
+    this.isCollapse = !this.isCollapse;
+    this.controlArray.forEach((c, index) => {
+      c.show = this.isCollapse ? index < 6 : true;
+    });
+  }
+
+  resetForm(): void {
+    this.validateForm.reset();
+  }
+
+  addField(e?: MouseEvent): void {
+    if (e) {
+      e.preventDefault();
+    }
+    const id = this.listOfControl.length > 0 ? this.listOfControl[this.listOfControl.length - 1].id + 1 : 0;
+
+    const control = {
+      id,
+      controlInstance: `passenger${id}`
+    };
+    const index = this.listOfControl.push(control);
+    console.log(this.listOfControl[this.listOfControl.length - 1]);
+    this.validateForm.addControl(
+      this.listOfControl[index - 1].controlInstance,
+      new FormControl(null, Validators.required)
+    );
+  }
+
+  removeField(i: { id: number; controlInstance: string }, e: MouseEvent): void {
+    e.preventDefault();
+    if (this.listOfControl.length > 1) {
+      const index = this.listOfControl.indexOf(i);
+      this.listOfControl.splice(index, 1);
+      console.log(this.listOfControl);
+      this.validateForm.removeControl(i.controlInstance);
+    }
+  }
+
+  submitForm(): void {
+    for (const i in this.validateForm.controls) {
+      if (this.validateForm.controls.hasOwnProperty(i)) {
+        this.validateForm.controls[i].markAsDirty();
+        this.validateForm.controls[i].updateValueAndValidity();
+      }
+    }
+    console.log(this.validateForm.value);
+  }
+
+
+
+
   addsubmit(value: planList) {
     this.showLoading = true;
     for (const key in this.validateForm.controls) {
@@ -83,36 +138,26 @@ export class ModalComponent implements OnInit {
     private modalRef: NzModalRef,
     private fb: FormBuilder,
     private sharedService: SharedService
-  ) {
-    // const { required, maxLength, minLength, email, mobile, idNo } =
-    //   MyValidators;
-    // this.validateForm = this.fb.group({
-    //   planId: [
-    //     '',
-    //     [required, maxLength(12), minLength(12)],
-    //     ValidateStudentExist.createValidator(this.sharedService),
-    //   ],
-    //   planName: ['', [required]],
-    //   gender: ['F', [required]],
-    //   schoolYear: ['2021-01-01', [required]],
-    //   telephone: ['', [required, mobile]],
-    //   email: ['', [required, email]],
-    //   planType: ['M', [required]],
-    //   idNo: ['', [required, maxLength(18), minLength(18), idNo]],
-    //   avatarUrl: ['', []],
-    // });
-  }
+  ) {}
   ngOnInit(): void {
-    this.validateForm.setValue(this.dataItem);
-    console.log(this.method);
-    if (this.method == 'add') {
-      this.add = true;
-      this.update = false;
-    } else {
-      this.add = false;
-      this.update = true;
-      this.validateForm.controls['planId'].clearAsyncValidators();
+    // this.validateForm.setValue(this.dataItem);
+    // console.log(this.method);
+    // if (this.method == 'add') {
+    //   this.add = true;
+    //   this.update = false;
+    // } else {
+    //   this.add = false;
+    //   this.update = true;
+    //   this.validateForm.controls['planId'].clearAsyncValidators();
+    // }
+
+    this.validateForm = this.fb.group({});
+    for (let i = 0; i < 16; i++) {
+      this.controlArray.push({ index: i, show: i < 6 });
+      this.validateForm.addControl(`field${i}`, new FormControl());
     }
+
+    this.addField();
 
     this.submitresult$ = this.submitForm$.pipe(
       exhaustMap((value) => this.sharedService.addStudent(value))

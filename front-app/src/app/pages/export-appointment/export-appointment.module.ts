@@ -8,6 +8,8 @@ import { NzButtonModule } from 'ng-zorro-antd/button';
 import { FuzzySearchModule } from 'src/app/child/fuzzy-search/fuzzy-search.module';
 import { NzModalModule } from 'ng-zorro-antd/modal';
 
+import { ModalModule } from './modal/modal.module';
+
 @NgModule({
   imports: [
     ExportAppointmentRoutingModule,
@@ -16,6 +18,7 @@ import { NzModalModule } from 'ng-zorro-antd/modal';
     CommonModule,
     FuzzySearchModule,
     NzModalModule,
+    ModalModule,
 
   ],
   declarations: [ExportAppointmentComponent],

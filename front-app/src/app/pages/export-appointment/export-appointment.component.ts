@@ -141,22 +141,13 @@ export class ExportAppointmentComponent implements OnInit {
       this.filter,
     );
   }
-  creatForm(): void {
+  createForm(): void {
     const modal = this.modal.create({
       nzTitle: 'Add New Student',
+      nzWidth:'80',
       nzContent: ModalComponent,
       nzComponentParams: {
-        dataItem: {
-          studentId: '',
-          studentName: '',
-          gender: 'F',
-          schoolYear: new Date(),
-          telephone: '',
-          email: '',
-          studentType: 'M',
-          idNo: '',
-          avatarUrl: '',
-        },
+
         method: 'add',
       },
       nzClosable: false,
