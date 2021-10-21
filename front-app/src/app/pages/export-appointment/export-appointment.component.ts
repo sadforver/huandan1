@@ -141,21 +141,35 @@ export class ExportAppointmentComponent implements OnInit {
       this.filter,
     );
   }
-  creatForm(): void {
+  convertDate (date:Date, day:number):Date {
+    let tempDate = new Date(date);
+    tempDate.setDate(tempDate.getDate()+day);
+    let Y = tempDate.getFullYear();
+    let M = tempDate.getMonth()+1 < 10 ? '0'+(tempDate.getMonth()+1) : tempDate.getMonth()+1;
+    let D = tempDate.getDate() < 10 ? '0'+(tempDate.getDate()) : tempDate.getDate();
+    let result = Y + "-" + M + "-" + D
+    let da=new Date(result)
+    return da;
+  }
+  createForm(): void {
     const modal = this.modal.create({
       nzTitle: 'Add New Student',
       nzContent: ModalComponent,
       nzComponentParams: {
         dataItem: {
-          studentId: '',
-          studentName: '',
-          gender: 'F',
-          schoolYear: new Date(),
-          telephone: '',
-          email: '',
-          studentType: 'M',
-          idNo: '',
-          avatarUrl: '',
+          planId: '',
+          planTime:new Date(),
+          expTime: this.convertDate(new Date(),30),
+          vessel:'',
+          voyage:'',
+          billNo: '',
+          carGroupCode:'',
+          userId: '',
+          planStatus: '',
+          paymentStatus: '',
+          documentPath:'',
+          remark:'',
+          KSCode:'',
         },
         method: 'add',
       },

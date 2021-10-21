@@ -1,4 +1,42 @@
 <form nz-form [nzAutoTips]="autoTips" [formGroup]="validateForm">
+  <div nz-row [nzGutter]="24">
+    <div nz-col [nzSpan]="6" *ngFor="let control of controlArray" >
+      <nz-form-item>
+        <nz-form-label [nzFor]="control.index">{{ control.index }}</nz-form-label>
+        <nz-form-control>
+          <input
+            nz-input
+            placeholder="placeholder"
+            [formControlName]="control.index"
+            [attr.id]="control.index"
+          />
+        </nz-form-control>
+      </nz-form-item>
+    </div>
+  </div>
+
+</form>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<!-- <form nz-form [nzAutoTips]="autoTips" [formGroup]="validateForm">
     <nz-form-item>
       <nz-form-label [nzSpan]="7" nzRequired>学号</nz-form-label>
       <nz-form-control [nzSpan]="12" nzValidatingTip="Validating...">
@@ -69,4 +107,4 @@
       *ngIf="update">
       编辑
     </button>
-  </div>
+  </div> -->

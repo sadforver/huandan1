@@ -7,7 +7,7 @@ import { NZ_I18N } from 'ng-zorro-antd/i18n';
 import { en_US } from 'ng-zorro-antd/i18n';
 import { registerLocaleData } from '@angular/common';
 import en from '@angular/common/locales/en';
-import { FormsModule } from '@angular/forms';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { HttpClientModule } from '@angular/common/http';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { IconsProviderModule } from './icons-provider.module';
@@ -22,7 +22,7 @@ import { ModalComponent } from './pages/export-appointment/modal/modal.component
 registerLocaleData(en);
 
 @NgModule({
-  declarations: [AppComponent, SidemenuComponent, ModalComponent],
+  declarations: [AppComponent, SidemenuComponent,],
   imports: [
     BrowserModule,
     AppRoutingModule,
@@ -32,7 +32,9 @@ registerLocaleData(en);
     IconsProviderModule,
     NzLayoutModule,
     NzMenuModule,
-    NzInputModule
+    NzInputModule,
+    ReactiveFormsModule,
+
 
   ],
   exports:[],

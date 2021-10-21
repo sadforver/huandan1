@@ -1,5 +1,5 @@
 import { Component, Input, OnInit } from '@angular/core';
-import { FormBuilder, FormGroup } from '@angular/forms';
+import { FormBuilder, FormControl, FormGroup } from '@angular/forms';
 import { Observable, Subject } from 'rxjs';
 import { exhaustMap } from 'rxjs/operators';
 import { Result } from 'src/app/result';
@@ -27,6 +27,7 @@ export class ModalComponent implements OnInit {
   private updateForm$ = new Subject<planList>();
   submitresult$!: Observable<Result<planList>>;
   updateresult$!: Observable<Result<planList>>;
+  controlArray: Array<{ index: string; show: boolean }> = [];
   addsubmit(value: planList) {
     this.showLoading = true;
     for (const key in this.validateForm.controls) {
@@ -101,8 +102,18 @@ export class ModalComponent implements OnInit {
     //   idNo: ['', [required, maxLength(18), minLength(18), idNo]],
     //   avatarUrl: ['', []],
     // });
-  }
+      }
+    index:Array<string>=[]
   ngOnInit(): void {
+   
+    this.validateForm = this.fb.group({});
+    this.index=Object.keys(this.dataItem) ;
+    console.log(this.index)
+
+    for (let i = 0; i < this.index.length; i++) {
+      this.controlArray.push({ index: this.index[i], show: i < 6 });
+      this.validateForm.addControl(`${this.index[i]}`, new FormControl());
+    }
     this.validateForm.setValue(this.dataItem);
     console.log(this.method);
     if (this.method == 'add') {
