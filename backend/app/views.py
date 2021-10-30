@@ -16,7 +16,7 @@ class takeContainerPlan2CView(APIView):
             print(userId)
             pageSize = request.GET.get('results')
             pageIndex = request.GET.get('page')
-            plan=Plan.objects.filter(userId=userId).order_by('expTime').all()
+            plan=Plan.objects.filter(user_id=userId).order_by('exp_time').all()
             planList=PlanSerializer(plan,many=True)
             total= len(planList.data)
             paginator=Paginator(planList.data,pageSize)

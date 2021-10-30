@@ -15,8 +15,7 @@ import { NzLayoutModule } from 'ng-zorro-antd/layout';
 import { NzMenuModule } from 'ng-zorro-antd/menu';
 import { NzInputModule } from 'ng-zorro-antd/input';
 import { SidemenuComponent } from './sidemenu/sidemenu.component';
-import { ModalComponent } from './pages/export-appointment/modal/modal.component';
-
+import { NzFormModule } from 'ng-zorro-antd/form';
 
 
 registerLocaleData(en);
@@ -34,7 +33,7 @@ registerLocaleData(en);
     NzMenuModule,
     NzInputModule,
     ReactiveFormsModule,
-
+    NzFormModule,
 
   ],
   exports:[],

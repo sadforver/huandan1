@@ -1,15 +1,22 @@
 export interface planList {
-    planId: string;
-    planTime: Date;
-    expTime: Date;
+    plan_id: string;
+    plan_time: Date;
+    exp_time: Date;
     vessel:string;
     voyage:string;
-    billNo: string;
-    carGroupCode: string;
-    userId: string;
-    planStatus: string;
-    paymentStatus: string;
-    documentPath:string;
+    bill_no: string;
+    car_group_code: string;
+    user_id: string;
+    plan_status: string;
+    payment_status: string;
+    document_path:string;
     remark:string;
-    KSCode:string;
+    KS_code:string;
   }
+  export interface ItemData {
+    id: string;
+    name: string;
+    type: string;
+    content: string;
+  }
+  

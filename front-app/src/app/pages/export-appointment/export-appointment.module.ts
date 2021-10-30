@@ -12,6 +12,10 @@ import { ModalComponent } from './modal/modal.component';
 import { NzDatePickerModule } from 'ng-zorro-antd/date-picker';
 import { NzRadioModule } from 'ng-zorro-antd/radio';
 import { ReactiveFormsModule } from '@angular/forms';
+import { NzDividerModule } from 'ng-zorro-antd/divider';
+import { NzIconModule } from 'ng-zorro-antd/icon';
+import { NzInputModule } from 'ng-zorro-antd/input';
+import { TableEditRowModule } from 'src/app/child/table-edit-row/table-edit-row.module';
 
 @NgModule({
   imports: [
@@ -25,6 +29,10 @@ import { ReactiveFormsModule } from '@angular/forms';
     NzDatePickerModule,
     NzRadioModule,
     ReactiveFormsModule,
+    NzDividerModule,
+    NzIconModule,
+    NzInputModule,
+    TableEditRowModule,
   ],
   declarations: [ExportAppointmentComponent, ModalComponent],
   exports: [ExportAppointmentComponent],

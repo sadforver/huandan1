@@ -7,6 +7,7 @@ import { NzInputModule } from 'ng-zorro-antd/input';
 import { NzFormModule } from 'ng-zorro-antd/form';
 import { NzIconModule } from 'ng-zorro-antd/icon';
 
+
 @NgModule({
   declarations: [ModalComponent],
   imports: [
@@ -18,7 +19,6 @@ import { NzIconModule } from 'ng-zorro-antd/icon';
     NzInputModule,
     NzFormModule,
     NzIconModule,
-
   ],
   exports:[ModalComponent]
 })

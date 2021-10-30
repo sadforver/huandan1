@@ -1,11 +1,12 @@
 import { Component, Input, OnInit } from '@angular/core';
-import { FormBuilder, FormControl, FormGroup } from '@angular/forms';
+import { FormArray, FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { Observable, Subject } from 'rxjs';
 import { exhaustMap } from 'rxjs/operators';
 import { Result } from 'src/app/result';
 import { SharedService } from 'src/app/shared.service';
-import { planList } from '../planList';
+import { ItemData, planList } from '../planList';
 import { NzModalRef } from 'ng-zorro-antd/modal';
+
 
 @Component({
   selector: 'app-modal',
@@ -28,6 +29,84 @@ export class ModalComponent implements OnInit {
   submitresult$!: Observable<Result<planList>>;
   updateresult$!: Observable<Result<planList>>;
   controlArray: Array<{ index: string; show: boolean }> = [];
+  nameArry:Array<{ index: string; show: boolean }> = [];
+  listOfControl: Array<{ id: number; controlInstance: string }> = [];
+  i = 0;
+  editCache: { [key: string]: { edit: boolean; data: ItemData } } = {};
+  listOfData: ItemData[] = [];
+  containerIndex!:number;
+  startEdit(id: string): void {
+    this.editCache[id].edit = true;
+    console.log("true");
+    
+  }
+ 
+  stopEdit(id: string): void {
+    const index = this.listOfData.findIndex(item => item.id === id);
+    Object.assign(this.listOfData[index], this.editCache[id].data);//根据id将缓存中的数据写回listOfData
+    this.editCache[id].edit = false;
+    console.log("false");
+    
+  }
+ 
+addRow(): void {
+    this.listOfData= [
+      ...this.listOfData,
+      {
+        id: `${this.i}`,
+        name: ``,
+        type: ``,
+        content: ``
+      }
+    ];
+    this.i++;
+    this.updateEditCache();//listOfData数据写入缓存中
+  }
+ 
+  updateEditCache(): void {
+    this.listOfData.forEach(item => {
+      this.editCache[item.id] = {
+        edit: false,
+        data: { ...item }
+      };
+    });
+  }
+ 
+deleteRow(id: string): void {
+    this.listOfData= this.listOfData.filter(d => d.id !== id);
+    //删除的时候editCache不用操作,它不需要保存..
+    //编辑时删除，可以在这里记录id,传后台进行删除。
+  }
+
+
+  addField(e?: MouseEvent): void {
+    if (e) {
+      e.preventDefault();
+    }
+    const id = this.listOfControl.length > 0 ? this.listOfControl[this.listOfControl.length - 1].id + 1 : 0;
+
+    const control = {
+      id,
+      controlInstance: `passenger${id}`
+    };
+    const index = this.listOfControl.push(control);
+    console.log(this.listOfControl[this.listOfControl.length - 1]);
+    this.validateForm.addControl(
+      this.listOfControl[index - 1].controlInstance,
+      new FormControl(null, Validators.required)
+    );
+  }
+
+  removeField(i: { id: number; controlInstance: string }, e: MouseEvent): void {
+    e.preventDefault();
+    if (this.listOfControl.length > 1) {
+      const index = this.listOfControl.indexOf(i);
+      this.listOfControl.splice(index, 1);
+      console.log(this.listOfControl);
+      this.validateForm.removeControl(i.controlInstance);
+    }
+  }
+
   addsubmit(value: planList) {
     this.showLoading = true;
     for (const key in this.validateForm.controls) {
@@ -80,6 +159,19 @@ export class ModalComponent implements OnInit {
   close() {
     this.modalRef.destroy();
   }
+  get Container() {
+    return this.validateForm.get('Container') as FormArray;
+  }
+  addContainer() {
+    this.Container.push(this.fb.group({
+      container_id:['',],
+      container_no:['',],
+      ctn_net_weight:['',],
+    }));
+  }
+  public removeContainer(containerIndex: number): void {
+    this.Container.removeAt(containerIndex);
+  }
   constructor(
     private modalRef: NzModalRef,
     private fb: FormBuilder,
@@ -102,10 +194,24 @@ export class ModalComponent implements OnInit {
     //   idNo: ['', [required, maxLength(18), minLength(18), idNo]],
     //   avatarUrl: ['', []],
     // });
+   
       }
     index:Array<string>=[]
   ngOnInit(): void {
-   
+     this.validateForm = this.fb.group({
+      ctn_size:['',Validators.required],
+      ctn_type:['',],
+      plan_id: ['',],
+      Container:this.fb.array([
+        this.fb.group({
+          container_id:['',],
+          container_no:['',],
+          ctn_net_weight:['',],
+        })
+      ])
+    });
+    this.addRow();
+
     this.validateForm = this.fb.group({});
     this.index=Object.keys(this.dataItem) ;
     console.log(this.index)
@@ -115,6 +221,7 @@ export class ModalComponent implements OnInit {
       this.validateForm.addControl(`${this.index[i]}`, new FormControl());
     }
     this.validateForm.setValue(this.dataItem);
+    this.addField();
     console.log(this.method);
     if (this.method == 'add') {
       this.add = true;

@@ -154,23 +154,10 @@ export class ExportAppointmentComponent implements OnInit {
   createForm(): void {
     const modal = this.modal.create({
       nzTitle: 'Add New Student',
+      nzWidth:'80%',
       nzContent: ModalComponent,
       nzComponentParams: {
-        dataItem: {
-          planId: '',
-          planTime:new Date(),
-          expTime: this.convertDate(new Date(),30),
-          vessel:'',
-          voyage:'',
-          billNo: '',
-          carGroupCode:'',
-          userId: '',
-          planStatus: '',
-          paymentStatus: '',
-          documentPath:'',
-          remark:'',
-          KSCode:'',
-        },
+        
         method: 'add',
       },
       nzClosable: false,
