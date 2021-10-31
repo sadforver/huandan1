@@ -34,7 +34,7 @@ export class SharedService {
 
   }
   addStudent(val: any): Observable<Result<planList>> {
-    return this.http.post<Result<planList>>(this.apiUrl + '/stud/', val);
+    return this.http.post<Result<planList>>(this.apiUrl + '/takecontainerplan/', val);
   }
   updateStudent(val: any): Observable<Result<planList>> {
     return this.http.put<Result<planList>>(this.apiUrl + '/stud/', val);

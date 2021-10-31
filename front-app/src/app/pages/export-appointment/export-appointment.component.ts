@@ -153,7 +153,7 @@ export class ExportAppointmentComponent implements OnInit {
   }
   createForm(): void {
     const modal = this.modal.create({
-      nzTitle: 'Add New Student',
+      nzTitle: '新建计划',
       nzWidth:'80%',
       nzContent: ModalComponent,
       nzComponentParams: {

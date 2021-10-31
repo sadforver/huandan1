@@ -1,83 +1,116 @@
-<form [formGroup]="validateForm" nz-form>
-  <nz-form-item>
-    <nz-form-label nzSpan="3" nz-col> 尺寸 </nz-form-label>
-    <nz-form-control nzSpan="7" nz-col>
-      <input
-        nz-input
-        type="text"
-        placeholder="请输入集装箱尺寸"
-        formControlName="ctn_size"
-      />
-    </nz-form-control>
+<nz-divider [nzText]="'表单嵌套'"></nz-divider>
+<form nz-form [formGroup]="validateForm">
+  <nz-form-item >
 
-    <nz-form-label nzSpan="3" nzOffset="1" nz-col> 箱型 </nz-form-label>
-    <nz-form-control nzSpan="7" nz-col>
-      <input
-        nz-input
-        type="text"
-        placeholder="请输入集装箱箱型"
-        formControlName="ctn_type"
-      />
-    </nz-form-control>
-    <nz-form-label nzSpan="3" nzOffset="1" nz-col> 计划号 </nz-form-label>
-    <nz-form-control nzSpan="7" nz-col>
-      <input
-        nz-input
-        type="text"
-        placeholder="请输入计划号"
-        formControlName="plan_id"
-      />
-    </nz-form-control>
+      <nz-form-label nzSpan="2" nz-col> 尺寸 </nz-form-label>
+      <nz-form-control nzSpan="6" nz-col>
+        <input
+          nz-input
+          type="text"
+          placeholder="请输入集装箱尺寸"
+          formControlName="ctnSize"
+        />
+      </nz-form-control>
+      <nz-form-label nzSpan="2" nz-col> 箱型 </nz-form-label>
+      <nz-form-control nzSpan="6" nz-col>
+        <input
+          nz-input
+          type="text"
+          placeholder="请输入集装箱箱型"
+          formControlName="ctnType"
+        />
+      </nz-form-control>
+      <nz-form-label nzSpan="2" nz-col> 计划号 </nz-form-label>
+      <nz-form-control nzSpan="6" nz-col>
+        <input
+          nz-input
+          type="text"
+          placeholder="请输入计划号"
+          formControlName="planId"
+        />
+      </nz-form-control>
+
+  </nz-form-item>
+  <nz-form-item>
+
+      <nz-form-label nzSpan="2" nz-col>船名</nz-form-label>
+      <nz-form-control nz-col nzSpan="6">
+        <input
+          nz-input
+          type="text"
+          placeholder="请输入船名"
+          formControlName="vessel"
+        />
+      </nz-form-control>
+      <nz-form-label nzSpan="2" nz-col>航次</nz-form-label>
+      <nz-form-control nz-col nzSpan="6">
+        <input
+          nz-input
+          type="text"
+          placeholder="请输入航次"
+          formControlName="voyage"
+        />
+      </nz-form-control>
+      <nz-form-label nzSpan="2" nz-col>提单号</nz-form-label>
+      <nz-form-control nz-col nzSpan="6">
+        <input nz-input type="text" formControlName="billNo" />
+      </nz-form-control>
+    
+</nz-form-item>
+    <nz-form-item>
+
+      <nz-form-label nzSpan="2" nz-col>备注</nz-form-label>
+      <nz-form-control nz-col nzSpan="22">
+        <input nz-input type="text" formControlName="remark"  />
+      </nz-form-control>
+
   </nz-form-item>
 
   <nz-form-item>
-    <nz-form-label nzSpan="3" nz-col> 添加箱号 </nz-form-label>
-    <button nz-button (click)="addContainer()">增加</button>
-    <nz-form-control nzSpan="18">
-      <div
-        class="Container"
-        formArrayName="Container"
-        *ngFor="let content of Container.controls; let cotainerIndex = index"
-      >
-        <nz-row>
-          <nz-form-label nzSpan="3" nz-col>
-            集装箱{{ containerIndex + 1 }}
-          </nz-form-label>
-          <nz-form-control nzOffset="15" nzSpan="3" nz-col>
-            <button nz-button (click)="removeContainer(containerIndex)">
-              删除
-            </button>
-          </nz-form-control>
-        </nz-row>
-        <nz-row>
-          <nz-form-label nzSpan="3" nz-col>箱号</nz-form-label>
-          <nz-form-control
-            nz-col
-            nzSpan="7"
-            [formGroupName]="containerIndex.toString()"
-          >
-            <input nz-input type="text" formControlName="container_id" />
-          </nz-form-control>
-          <nz-form-label nzOffset="1" nzSpan="3" nz-col
-            >箱系统号
-          </nz-form-label>
-          <nz-form-control
-            nz-col
-            nzSpan="7"
-            [formGroupName]="containerIndex.toString()"
-          >
-            <input nz-input type="text" formControlName="container_no" />
-          </nz-form-control>
+    <nz-form-label nzSpan="2" nz-col> 集装箱 </nz-form-label>
 
-          <nz-form-label nzSpan="3" nz-col>净重</nz-form-label>
-          <nz-form-control
-            nz-col
-            nzSpan="18"
-            [formGroupName]="containerIndex.toString()"
-          >
-            <input nz-input type="text" formControlName="ctn_net_weight" />
-          </nz-form-control>
-        </nz-row>
+    <nz-form-control nzSpan="14">
+      <button nz-button (click)="addContainer()">增加</button>
+      <div
+        class="containerContent"
+        formArrayName="containerContent"
+        *ngFor="
+          let content of containerContent.controls;
+          let containerIndex = index
+        "
+      >
+        <div [formGroupName]="containerIndex.toString()">
+          <nz-row>
+            <nz-form-label nzSpan="2" nz-col>
+              集装箱{{ containerIndex + 1 }}
+            </nz-form-label>
+            <nz-form-control nzOffset="15" nzSpan="2" nz-col>
+              <button nz-button (click)="removeContainer(containerIndex)">
+                删除
+              </button>
+            </nz-form-control>
+          </nz-row>
+          <nz-row>
+            <nz-form-label nzSpan="2" nz-col>集装箱编号</nz-form-label>
+            <nz-form-control nz-col nzSpan="6">
+              <input nz-input type="text" formControlName="containerId" />
+            </nz-form-control>
+            <nz-form-label nzSpan="2" nz-col>集装箱箱号</nz-form-label>
+            <nz-form-control nz-col nzSpan="6">
+              <input nz-input type="text" formControlName="containerNo" />
+            </nz-form-control>
+            <nz-form-label nzSpan="2" nz-col>进场日期</nz-form-label>
+            <nz-form-control nz-col nzSpan="6">
+              <nz-date-picker formControlName="enterTime"></nz-date-picker>
+            </nz-form-control>
+          </nz-row>
+          <nz-row>
+            <nz-form-label nzSpan="2" nz-col>净重</nz-form-label>
+            <nz-form-control nz-col nzSpan="6">
+              <input nz-input type="text" formControlName="ctnNetWeight" />
+            </nz-form-control>
+          </nz-row>
+        </div>
       </div>
     </nz-form-control>
   </nz-form-item>
@@ -89,3 +122,10 @@
     {{ validateForm.value | json }}
   </nz-form-control>
 </nz-form-item>
+<div *nzModalFooter>
+  <button nz-button nzType="default" (click)="close()">取消</button>
+  <button nz-button nzType="primary" (click)="addsubmit(validateForm.value)" [nzLoading]="showLoading" >
+    提交
+  </button>
+
+</div>

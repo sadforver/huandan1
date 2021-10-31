@@ -32,7 +32,12 @@ class takeContainerPlan2CView(APIView):
     def post(self,request):
         try:
             data=request.data
-            models.plan.objects.create(**data['data'])
+            ctn=data['containerContent']
+            print(type(ctn),ctn)
+            for cell in ctn:
+                cell.update(ctnSize=data['ctnSize'],ctnType=data['ctnType'],planId=data['planId'])
+            print(ctn)
+            # models.Plan.objects.create(**data['data'])
             rtn = {'code': 1000, 'message': '提交成功', 'data': data}
         except Exception as e:
             rtn = {'code': 1001, 'message': '获取失败' + str(e), 'data': {}}
