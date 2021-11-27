@@ -8,7 +8,7 @@ import { en_US } from 'ng-zorro-antd/i18n';
 import { registerLocaleData } from '@angular/common';
 import en from '@angular/common/locales/en';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
-import { HttpClientModule } from '@angular/common/http';
+import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { IconsProviderModule } from './icons-provider.module';
 import { NzLayoutModule } from 'ng-zorro-antd/layout';
@@ -16,12 +16,17 @@ import { NzMenuModule } from 'ng-zorro-antd/menu';
 import { NzInputModule } from 'ng-zorro-antd/input';
 import { SidemenuComponent } from './sidemenu/sidemenu.component';
 import { NzFormModule } from 'ng-zorro-antd/form';
-
+import { ErrorHandlerInterceptor } from './interceptors/error-handle.interceptor';
+import { AuthInterceptor } from './interceptors/auth.interceptors';
+import { LoginComponent } from './pages/login/login.component';
+import { NzButtonComponent, NzButtonModule } from 'ng-zorro-antd/button';
+import { NzMessageComponent, NzMessageModule } from 'ng-zorro-antd/message';
+import { NzNotificationModule } from 'ng-zorro-antd/notification';
 
 registerLocaleData(en);
 
 @NgModule({
-  declarations: [AppComponent, SidemenuComponent,],
+  declarations: [AppComponent, SidemenuComponent, LoginComponent],
   imports: [
     BrowserModule,
     AppRoutingModule,
@@ -34,10 +39,20 @@ registerLocaleData(en);
     NzInputModule,
     ReactiveFormsModule,
     NzFormModule,
-
+    NzButtonModule,
+    NzMessageModule,
+    NzNotificationModule,
   ],
-  exports:[],
-  providers: [{ provide: NZ_I18N, useValue: en_US }],
+  exports: [],
+  providers: [
+    { provide: NZ_I18N, useValue: en_US },
+    {
+      provide: HTTP_INTERCEPTORS,
+      useClass: ErrorHandlerInterceptor,
+      multi: true,
+    },
+    { provide: HTTP_INTERCEPTORS, useClass: AuthInterceptor, multi: true },
+  ],
   bootstrap: [AppComponent],
 })
 export class AppModule {}

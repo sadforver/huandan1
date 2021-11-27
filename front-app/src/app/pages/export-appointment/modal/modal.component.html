@@ -1,69 +1,80 @@
-<nz-divider [nzText]="'表单嵌套'"></nz-divider>
 <form nz-form [formGroup]="validateForm">
-  <nz-form-item >
-
-      <nz-form-label nzSpan="2" nz-col> 尺寸 </nz-form-label>
-      <nz-form-control nzSpan="6" nz-col>
-        <input
-          nz-input
-          type="text"
-          placeholder="请输入集装箱尺寸"
-          formControlName="ctnSize"
-        />
-      </nz-form-control>
-      <nz-form-label nzSpan="2" nz-col> 箱型 </nz-form-label>
-      <nz-form-control nzSpan="6" nz-col>
-        <input
-          nz-input
-          type="text"
-          placeholder="请输入集装箱箱型"
-          formControlName="ctnType"
-        />
-      </nz-form-control>
-      <nz-form-label nzSpan="2" nz-col> 计划号 </nz-form-label>
-      <nz-form-control nzSpan="6" nz-col>
-        <input
-          nz-input
-          type="text"
-          placeholder="请输入计划号"
-          formControlName="planId"
-        />
-      </nz-form-control>
-
+  <nz-form-item>
+    <nz-form-label nzSpan="2" nz-col> 堆场代码 </nz-form-label>
+    <nz-form-control nzSpan="6" nz-col>
+      <input
+        nz-input
+        type="text"
+        placeholder="请输入堆场代码"
+        formControlName="depot"
+      />
+    </nz-form-control>
+    <nz-form-label nzSpan="2" nz-col>提单号</nz-form-label>
+    <nz-form-control nz-col nzSpan="6">
+      <input nz-input type="text" formControlName="blNo" />
+    </nz-form-control>
+    <nz-form-label nzSpan="2" nz-col>英文船名</nz-form-label>
+    <nz-form-control nz-col nzSpan="6">
+      <input
+        nz-input
+        type="text"
+        placeholder="请输入英文船名"
+        formControlName="vesselName"
+      />
+    </nz-form-control>
   </nz-form-item>
   <nz-form-item>
+    <nz-form-label nzSpan="2" nz-col>航次</nz-form-label>
+    <nz-form-control nz-col nzSpan="6">
+      <input
+        nz-input
+        type="text"
+        placeholder="请输入航次"
+        formControlName="voyage"
+      />
+    </nz-form-control>
+    <nz-form-label nzSpan="2" nz-col> 尺寸 </nz-form-label>
+    <nz-form-control nzSpan="6" nz-col>
+      <input
+        nz-input
+        type="text"
+        placeholder="请输入集装箱尺寸"
+        formControlName="contSize"
+      />
+    </nz-form-control>
+    <nz-form-label nzSpan="2" nz-col> 箱型 </nz-form-label>
+    <nz-form-control nzSpan="6" nz-col>
+      <input
+        nz-input
+        type="text"
+        placeholder="请输入集装箱类型"
+        formControlName="contType"
+      />
+    </nz-form-control>
+  </nz-form-item>
+  <nz-form-item>
+    <nz-form-label nzSpan="2" nz-col>车队代码</nz-form-label>
+    <nz-form-control nz-col nzSpan="22">
+      <input
+        nz-input
+        type="text"
+        placeholder="请输入车队代码"
+        formControlName="carGroupCode"
+      />
+    </nz-form-control>
+  </nz-form-item>
+  <nz-form-item>
+    <nz-form-label nzSpan="2" nz-col>有效日期</nz-form-label>
+    <nz-form-control nz-col nzSpan="22">
+      <nz-date-picker formControlName="expiryDate"></nz-date-picker>
+    </nz-form-control>
+  </nz-form-item>
 
-      <nz-form-label nzSpan="2" nz-col>船名</nz-form-label>
-      <nz-form-control nz-col nzSpan="6">
-        <input
-          nz-input
-          type="text"
-          placeholder="请输入船名"
-          formControlName="vessel"
-        />
-      </nz-form-control>
-      <nz-form-label nzSpan="2" nz-col>航次</nz-form-label>
-      <nz-form-control nz-col nzSpan="6">
-        <input
-          nz-input
-          type="text"
-          placeholder="请输入航次"
-          formControlName="voyage"
-        />
-      </nz-form-control>
-      <nz-form-label nzSpan="2" nz-col>提单号</nz-form-label>
-      <nz-form-control nz-col nzSpan="6">
-        <input nz-input type="text" formControlName="billNo" />
-      </nz-form-control>
-    
-</nz-form-item>
-    <nz-form-item>
-
-      <nz-form-label nzSpan="2" nz-col>备注</nz-form-label>
-      <nz-form-control nz-col nzSpan="22">
-        <input nz-input type="text" formControlName="remark"  />
-      </nz-form-control>
-
+  <nz-form-item>
+    <nz-form-label nzSpan="2" nz-col>备注</nz-form-label>
+    <nz-form-control nz-col nzSpan="22">
+      <input nz-input type="text" formControlName="remark" />
+    </nz-form-control>
   </nz-form-item>
 
   <nz-form-item>
@@ -93,21 +104,25 @@
           <nz-row>
             <nz-form-label nzSpan="2" nz-col>集装箱编号</nz-form-label>
             <nz-form-control nz-col nzSpan="6">
-              <input nz-input type="text" formControlName="containerId" />
+              <input nz-input type="text" formControlName="container_id" />
             </nz-form-control>
             <nz-form-label nzSpan="2" nz-col>集装箱箱号</nz-form-label>
             <nz-form-control nz-col nzSpan="6">
-              <input nz-input type="text" formControlName="containerNo" />
+              <input nz-input type="text" formControlName="container_no" />
             </nz-form-control>
             <nz-form-label nzSpan="2" nz-col>进场日期</nz-form-label>
             <nz-form-control nz-col nzSpan="6">
-              <nz-date-picker formControlName="enterTime"></nz-date-picker>
+              <nz-date-picker formControlName="enter_time"></nz-date-picker>
             </nz-form-control>
           </nz-row>
           <nz-row>
             <nz-form-label nzSpan="2" nz-col>净重</nz-form-label>
             <nz-form-control nz-col nzSpan="6">
-              <input nz-input type="text" formControlName="ctnNetWeight" />
+              <input nz-input type="text" formControlName="ctn_net_weight" />
+            </nz-form-control>
+            <nz-form-label nzSpan="2" nz-col>授权码</nz-form-label>
+            <nz-form-control nz-col nzSpan="6">
+              <input nz-input type="text" formControlName="serialNo" />
             </nz-form-control>
           </nz-row>
         </div>
@@ -124,8 +139,12 @@
 </nz-form-item>
 <div *nzModalFooter>
   <button nz-button nzType="default" (click)="close()">取消</button>
-  <button nz-button nzType="primary" (click)="addsubmit(validateForm.value)" [nzLoading]="showLoading" >
+  <button
+    nz-button
+    nzType="primary"
+    (click)="addsubmit(validateForm.value)"
+    [nzLoading]="showLoading"
+  >
     提交
   </button>
-
 </div>

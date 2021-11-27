@@ -1,7 +1,7 @@
 import { HttpClient, HttpParams } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable, of } from 'rxjs';
-import { planList } from './pages/export-appointment/planList'; 
+import { plan, planList } from './pages/export-appointment/planList'; 
 import { checkres, Result } from './result';
 import { catchError } from 'rxjs/operators';
 
@@ -33,11 +33,11 @@ export class SharedService {
       .get<Result<planList[]>>(`${this.apiUrl + /takecontainerplan/}`, { params })
 
   }
-  addStudent(val: any): Observable<Result<planList>> {
-    return this.http.post<Result<planList>>(this.apiUrl + '/takecontainerplan/', val);
+  addStudent(val: any): Observable<Result<plan>> {
+    return this.http.post<Result<plan>>(this.apiUrl + '/takecontainerplan/', val);
   }
-  updateStudent(val: any): Observable<Result<planList>> {
-    return this.http.put<Result<planList>>(this.apiUrl + '/stud/', val);
+  updateStudent(val: any): Observable<Result<plan>> {
+    return this.http.put<Result<plan>>(this.apiUrl + '/stud/', val);
   }
   deleteStudent(val: any) {
     return this.http.delete(this.apiUrl + '/stud/', {

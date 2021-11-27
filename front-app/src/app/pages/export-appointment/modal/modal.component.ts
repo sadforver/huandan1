@@ -10,8 +10,10 @@ import { Observable, Subject } from 'rxjs';
 import { exhaustMap } from 'rxjs/operators';
 import { Result } from 'src/app/result';
 import { SharedService } from 'src/app/shared.service';
-import { ItemData, planList } from '../planList';
+import { ItemData, plan, planList } from '../planList';
 import { NzModalRef } from 'ng-zorro-antd/modal';
+import { format } from 'date-fns';
+import { LocalStorageService } from 'src/app/services/local-storage.service';
 
 @Component({
   selector: 'app-modal',
@@ -29,10 +31,10 @@ export class ModalComponent implements OnInit {
   gender = 'F';
   planType = 'M';
   valid!: boolean;
-  private submitForm$ = new Subject<planList>();
-  private updateForm$ = new Subject<planList>();
-  submitresult$!: Observable<Result<planList>>;
-  updateresult$!: Observable<Result<planList>>;
+  private submitForm$ = new Subject<plan>();
+  private updateForm$ = new Subject<plan>();
+  submitresult$!: Observable<Result<plan>>;
+  updateresult$!: Observable<Result<plan>>;
 
   containerIndex!: number;
 
@@ -54,7 +56,7 @@ export class ModalComponent implements OnInit {
     return this.validateForm.get('containerContent') as FormArray;
   }
 
-  addsubmit(value: planList) {
+  addsubmit(value: plan) {
     this.showLoading = true;
     for (const key in this.validateForm.controls) {
       if (this.validateForm.controls.hasOwnProperty(key)) {
@@ -72,7 +74,7 @@ export class ModalComponent implements OnInit {
       }
     }, 2000);
   }
-  updatesubmit(value: planList) {
+  updatesubmit(value: plan) {
     this.showLoading = true;
     for (const key in this.validateForm.controls) {
       if (this.validateForm.controls.hasOwnProperty(key)) {
@@ -110,22 +112,28 @@ export class ModalComponent implements OnInit {
   constructor(
     private modalRef: NzModalRef,
     private fb: FormBuilder,
-    private sharedService: SharedService
+    private sharedService: SharedService,
+    private localStorageService: LocalStorageService
   ) {
     this.validateForm = this.fb.group({
-      ctnSize: [null, [Validators.required]],
-      ctnType: [null, [Validators.required]],
-      planId: [null, [Validators.required]],
-      vessel: [null, [Validators.required]],
+      depot: [null, [Validators.required]],
+      contSize: [null, [Validators.required]],
+      contType: [null, [Validators.required]],
+      plan_time: [null, [Validators.required]],
+      expiryDate: [null, [Validators.required]],
+      vesselName: [null, [Validators.required]],
       voyage: [null, [Validators.required]],
-      billNo: [null, [Validators.required]],
+      blNo: [null, [Validators.required]],
+      operCode: [null, [Validators.required]],
+      carGroupCode: [null, [Validators.required]],
       remark: [null, [Validators.required]],
       containerContent: this.fb.array([
         this.fb.group({
-          containerId: [null, [Validators.required]],
-          containerNo: [null, [Validators.required]],
-          enterTime: [null, [Validators.required]],
-          ctnNetWeight: [null, [Validators.required]],
+          container_id: [null, [Validators.required]],
+          container_no: [null, [Validators.required]],
+          enter_time: [null, [Validators.required]],
+          ctn_net_weight: [null, [Validators.required]],
+          serialNo: [null, [Validators.required]],
         }),
       ]),
     });
@@ -139,23 +147,29 @@ export class ModalComponent implements OnInit {
     } else {
       this.add = false;
       this.update = true;
-      this.validateForm.controls['planId'].clearAsyncValidators();
+      this.validateForm.controls['plan_id'].clearAsyncValidators();
     }
-
+    let time = format(new Date(), 'yyyy-MM-dd HH:mm:ss');
+    console.log(time);
     this.validateForm.setValue({
-      ctnSize: 40,
-      ctnType: 'L',
-      planId: 'a1',
-      vessel: 'null',
-      voyage: 'null',
-      billNo: 'null',
+      depot: 'KTIL',
+      contSize: 'GP',
+      contType: '20',
+      plan_time: time,
+      expiryDate: '',
+      vesselName: 'SUYN',
+      operCode: this.localStorageService.getItem('username'),
+      carGroupCode: 'nulll',
+      voyage: 'SYUDAY',
+      blNo: 'ab34242',
       remark: 'null',
       containerContent: [
         {
-          containerId: 'null',
-          containerNo: 'null',
-          enterTime: '2021-10-31T05:12:58.631Z',
-          ctnNetWeight: 'null',
+          container_id: 'null',
+          container_no: 'null',
+          enter_time: time,
+          ctn_net_weight: 'null',
+          serialNo: 'aaa',
         },
       ],
     });

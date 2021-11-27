@@ -3,7 +3,7 @@ from django.db import models
 
 class CarGroup(models.Model):
     car_group_id=models.CharField(db_column='car_group_id',max_length=20,null=False,primary_key=True,verbose_name='车队编号')
-    car_group_code=models.CharField(db_column='car_group_code',max_length=50,null=False,verbose_name='车队代码(唯一)')
+    carGroupCode=models.CharField(db_column='car_group_code',max_length=50,null=False,verbose_name='车队代码(唯一)')
     car_group_full_name=models.CharField(db_column='car_group_full_name',max_length=100,null=False,verbose_name='车队全称')
     car_group_eng_full_name=models.CharField(db_column='car_group_eng_full_name',max_length=100,verbose_name='英文全称')
     car_group_short_name=models.CharField(db_column='car_group_short_name',max_length=15,verbose_name='中文简称')
@@ -12,8 +12,8 @@ class CarGroup(models.Model):
     contact_phone=models.CharField(db_column='contact_phone',max_length=20,verbose_name='联系电话')
     fax=models.CharField(db_column='fax',max_length=20,verbose_name='传真')
     type=models.CharField(db_column='type',max_length=10,null=False,verbose_name='车队类型')
-    lift_container_number=models.IntegerField(db_column='lift_container_number',max_length=6,null=False,verbose_name='可提_t_eU数量')
-    lift_heavy_container_number=models.IntegerField(db_column='lift_heavy_container_number',max_length=6,null=False,verbose_name='可提重_t_eU数量')
+    lift_container_number=models.IntegerField(db_column='lift_container_number',max_length=6,null=False,verbose_name='可提TEU数量')
+    lift_heavy_container_number=models.IntegerField(db_column='lift_heavy_container_number',max_length=6,null=False,verbose_name='可提重TEU数量')
 
     class Meta:
         managed=False,
@@ -35,12 +35,14 @@ class User(models.Model):
 class Plan(models.Model):
     plan_id=models.CharField(db_column='plan_id',max_length=20,null=False,verbose_name='计划号',primary_key=True)
     plan_time=models.DateTimeField(db_column='plan_time',null=False,verbose_name='预约时间',)
-    exp_time=models.DateTimeField(db_column='exp_time',null=False,verbose_name='过期时间',)
-    vessel=models.CharField(db_column='vessel',max_length=50,verbose_name='船名',)
+    expiryDate=models.DateTimeField(db_column='expiry_date',null=False,verbose_name='过期时间',)
+    vesselName=models.CharField(db_column='vessel_name',max_length=50,verbose_name='船名',)
+    toWhere=models.CharField(db_column='to_where',max_length=10,verbose_name='去向')
+    portOfFinal = models.CharField(db_column='port_of_final', max_length=10, verbose_name='目的港')
     voyage=models.CharField(db_column='voyage',max_length=50,verbose_name='航次',)
-    bill_no=models.CharField(db_column='bill_no',max_length=50,verbose_name='提单号',)
-    car_group_code=models.CharField(db_column='car_group_code',max_length=20,verbose_name='所属车队（外键）',)
-    user_id=models.CharField(db_column='user_id',max_length=20,null=False,verbose_name='所属客户',)
+    blNo=models.CharField(db_column='bl_no',max_length=50,verbose_name='提单号',)
+    carGroupCode=models.ForeignKey(CarGroup,db_column='car_group_code',max_length=20,verbose_name='所属车队（外键）',on_delete=models.DO_NOTHING)
+    operCode=models.CharField(db_column='oper_code',max_length=20,null=False,verbose_name='所属客户',)
     plan_status=models.CharField(db_column='plan_status',max_length=20,verbose_name='预约状态',)
     payment_status=models.CharField(db_column='payment_status',max_length=20,verbose_name='缴费状态',)
     document_path=models.CharField(db_column='document_path',max_length=1000,verbose_name='提箱单图片地址',)
@@ -64,8 +66,8 @@ class Container(models.Model):
     container_id=models.CharField(db_column='container_id',max_length=20,null=False,verbose_name='集装箱编号',
     primary_key=True)
     container_no=models.CharField(db_column='container_no',max_length=20,null=False,verbose_name='集装箱箱号',)
-    ctn_size=models.CharField(db_column='ctn_size',max_length=10,null=False,verbose_name='尺寸',)
-    ctn_type=models.CharField(db_column='ctn_type',max_length=10,null=False,verbose_name='箱型',)
+    contSize=models.CharField(db_column='cont_size',max_length=10,null=False,verbose_name='尺寸',)
+    contType=models.CharField(db_column='cont_type',max_length=10,null=False,verbose_name='箱型',)
     ctn_net_weight=models.FloatField(db_column='ctn_net_weight',null=False,verbose_name='净重',)
     ctn_gross_weight=models.FloatField(db_column='ctn_gross_weight',verbose_name='毛重',)
     volume=models.FloatField(db_column='volume',verbose_name='体积',)
