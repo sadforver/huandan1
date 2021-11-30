@@ -42,10 +42,12 @@ export class ModalComponent implements OnInit {
   public addContainer(): void {
     this.containerContent.push(
       this.fb.group({
-        containerId: [null, [Validators.required]],
-        containerNo: [null, [Validators.required]],
-        enterTime: [null, [Validators.required]],
-        ctnNetWeight: [null, [Validators.required]],
+        container_id: [null, [Validators.required]],
+        container_no: [null, [Validators.required]],
+        enter_time: [null, [Validators.required]],
+        ctn_net_weight: [null, [Validators.required]],
+        ctn_gross_weight: [null, [Validators.required]],
+        serialNo: [null, [Validators.required]],
       })
     );
   }
@@ -133,6 +135,7 @@ export class ModalComponent implements OnInit {
           container_no: [null, [Validators.required]],
           enter_time: [null, [Validators.required]],
           ctn_net_weight: [null, [Validators.required]],
+          ctn_gross_weight: [null, [Validators.required]],
           serialNo: [null, [Validators.required]],
         }),
       ]),
@@ -165,10 +168,11 @@ export class ModalComponent implements OnInit {
       remark: 'null',
       containerContent: [
         {
-          container_id: 'null',
-          container_no: 'null',
+          container_id: '123',
+          container_no: 'XGC324322',
           enter_time: time,
-          ctn_net_weight: 'null',
+          ctn_net_weight: 2500,
+          ctn_gross_weight: 3000,
           serialNo: 'aaa',
         },
       ],

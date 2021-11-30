@@ -22,7 +22,7 @@ import { LoginComponent } from './pages/login/login.component';
 import { NzButtonComponent, NzButtonModule } from 'ng-zorro-antd/button';
 import { NzMessageComponent, NzMessageModule } from 'ng-zorro-antd/message';
 import { NzNotificationModule } from 'ng-zorro-antd/notification';
-
+import { NzCheckboxModule } from 'ng-zorro-antd/checkbox';
 registerLocaleData(en);
 
 @NgModule({
@@ -42,6 +42,7 @@ registerLocaleData(en);
     NzButtonModule,
     NzMessageModule,
     NzNotificationModule,
+    NzCheckboxModule,
   ],
   exports: [],
   providers: [
