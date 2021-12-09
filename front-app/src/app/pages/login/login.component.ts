@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { Router } from '@angular/router';
 import { accessTokenKey, refreshTokenKey } from 'src/app/models/constant';
 import { LocalStorageService } from 'src/app/services/local-storage.service';
 import { LoginService } from 'src/app/services/login.service';
@@ -16,7 +17,8 @@ export class LoginComponent implements OnInit {
   constructor(
     private fb: FormBuilder,
     private localStorageService: LocalStorageService,
-    private loginService: LoginService
+    private loginService: LoginService,
+    private router: Router
   ) { }
 
   ngOnInit(): void {
@@ -46,6 +48,7 @@ export class LoginComponent implements OnInit {
             this.localStorageService.setItem('username', res.data.username);
             this.localStorageService.setItem(accessTokenKey, res.data.access);
             this.localStorageService.setItem(refreshTokenKey, res.data.refresh);
+            this.router.navigateByUrl('export-appointment');
           },
           error: res => {
             console.log('error', res);

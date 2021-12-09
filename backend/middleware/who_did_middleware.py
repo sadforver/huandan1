@@ -3,24 +3,28 @@ from django.db.models import signals
 from django.core.exceptions import FieldDoesNotExist
 from django.utils.deprecation import MiddlewareMixin
 from jwt import decode
-
+from rest_framework.views import APIView
 
 from app.serializers import  MyTokenVerifySerializer
 from backend import settings
 from utils.functional import curry
 from django.contrib.auth.models import User
-class WhoDidMiddleware(MiddlewareMixin):
-    def process_request(self, request, ):
+class WhoDidMiddleware(MiddlewareMixin,APIView):
+    def process_request(self, request):
         if request.method not in ('GET', 'HEAD', 'OPTIONS', 'TRACE'):
 
-            token=request.environ['HTTP_AUTHORIZATION'][4:]
-            if len(token)>4:
+            try:
+                token = request.environ['HTTP_AUTHORIZATION'][4:]
                 info=decode(token, settings.SECRET_KEY, algorithms=["HS256"])
+
                 user_id=info['user_id']
                 user = User.objects.filter(id=user_id).first()
-                print(user)
-            else:
+
+                request.user=user
+                print(request.user)
+            except:
                 user = None
+                print('usernone')
 
             mark_whodid = curry(self.mark_whodid, user)
             signals.pre_save.connect(mark_whodid, dispatch_uid=(self.__class__, request,), weak=False)

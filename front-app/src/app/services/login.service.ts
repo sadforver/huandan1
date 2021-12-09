@@ -26,7 +26,7 @@ export class LoginService {
   logout() {
     this.localStorageService.removeItem(accessTokenKey);
     this.localStorageService.removeItem(refreshTokenKey);
-    this.router.navigate(['/index/login']);
+    this.router.navigate(['/login']);
   }
 
 

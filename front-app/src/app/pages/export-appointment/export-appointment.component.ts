@@ -7,6 +7,9 @@ import { Result } from 'src/app/result';
 import { SharedService } from 'src/app/shared.service';
 import { ModalComponent } from './modal/modal.component';
 import { planList } from './planList';
+import { NzUploadChangeParam, NzUploadFile } from 'ng-zorro-antd/upload';
+import { NzMessageService } from 'ng-zorro-antd/message';
+import { LocalStorageService } from 'src/app/services/local-storage.service';
 @Component({
   selector: 'app-export-appointment',
   templateUrl: './export-appointment.component.html',
@@ -17,9 +20,11 @@ export class ExportAppointmentComponent implements OnInit {
   constructor(
     private sharedService:SharedService,
     private modal: NzModalService,
+    private msg: NzMessageService,
+    private localStorageService:LocalStorageService,
     // private msg: NzMessageService
   ) { }
-  userId: string='1';
+  operCode!:string;
   plan: planList[]=[];
   searchTerm!: string | null;
   filter!: Array<{ key: string; value: string; }>;
@@ -37,7 +42,7 @@ export class ExportAppointmentComponent implements OnInit {
   ]
 
   loadDataFromServer(
-    userId:string,
+    operCode:string,
     pageIndex: number,
     pageSize: number,
     searchTerm: string | null,
@@ -45,12 +50,14 @@ export class ExportAppointmentComponent implements OnInit {
   ): void {
     this.loading = true;
     this.sharedService
-      .getPlan(userId,pageIndex, pageSize, searchTerm, filter)
+      .getPlan(operCode,pageIndex, pageSize, searchTerm, filter)
       .subscribe({
         next: (res) => {
           this.loading = false;
           this.total = res.count;
           this.plan = res.data;
+          console.log(this.plan);
+          
         },
         error: (error) => {
           console.error(error);
@@ -64,13 +71,13 @@ export class ExportAppointmentComponent implements OnInit {
     console.log(params);
     const { pageSize, pageIndex,  filter } = params;
     const searchTerm = this.searchTerm || null;
-    const userId=this.userId;
+    const operCode=this.operCode;
     this.pageIndex = pageIndex;
     this.pageSize = pageSize;
     this.searchTerm = searchTerm;
     this.filter = filter;
     this.loadDataFromServer(
-      userId,
+      operCode,
       pageIndex,
       pageSize,
       searchTerm,
@@ -78,8 +85,9 @@ export class ExportAppointmentComponent implements OnInit {
     );
   }
   ngOnInit(): void {
+    this.operCode=this.localStorageService.getItem('username')
     this.loadDataFromServer(
-      this.userId,
+      this.operCode,
       this.pageIndex,
       this.pageSize,
       null,
@@ -90,7 +98,7 @@ export class ExportAppointmentComponent implements OnInit {
       distinctUntilChanged(),
       switchMap((searchTerm) =>
         this.sharedService.getPlan(
-          this.userId,
+          this.operCode,
           this.pageIndex,
           this.pageSize,
           searchTerm,
@@ -124,7 +132,7 @@ export class ExportAppointmentComponent implements OnInit {
     this.filter=[{key:'planStatus',value:status}]
     console.log(status)
     this.loadDataFromServer(
-      this.userId,
+      this.operCode,
       this.pageIndex,
       this.pageSize,
       this.searchTerm,
@@ -134,7 +142,7 @@ export class ExportAppointmentComponent implements OnInit {
   resetFilters(){
     this.filter=[]
     this.loadDataFromServer(
-      this.userId,
+      this.operCode,
       this.pageIndex,
       this.pageSize,
       this.searchTerm,
@@ -169,7 +177,7 @@ export class ExportAppointmentComponent implements OnInit {
         console.log('更新数据啦');
         console.log(res);
         this.loadDataFromServer(
-          this.userId,
+          this.operCode,
           this.pageIndex,
           this.pageSize,
           this.searchTerm,
@@ -178,4 +186,84 @@ export class ExportAppointmentComponent implements OnInit {
       }
     });
   }
+  deletePlan(dataItem: planList) {
+    this.sharedService.deleteStudent(dataItem.planId).subscribe((res) => {
+      alert(res['message'].toString());
+      if (res['code'] == 1000) {
+        this.loadDataFromServer(
+          this.operCode,
+          this.pageIndex,
+          this.pageSize,
+          this.searchTerm,
+          this.filter
+        );
+      }
+    });
+  }
+  beforeUpload = (file: NzUploadFile, _fileList: NzUploadFile[]) =>
+  new Observable((observer: Observer<boolean>) => {
+    const isJpgOrPng =
+      file.type === 'image/jpeg' || file.type === 'image/png';
+    if (!isJpgOrPng) {
+      this.msg.error('You can only upload JPG file!');
+      observer.complete();
+      return;
+    }
+    const isLt2M = file.size! / 1024 / 1024 < 2;
+    if (!isLt2M) {
+      this.msg.error('Image must smaller than 2MB!');
+      observer.complete();
+      return;
+    }
+    observer.next(isJpgOrPng && isLt2M);
+    observer.complete();
+  });
+private getBase64(img: File, callback: (img: string) => void): void {
+  const reader = new FileReader();
+  reader.addEventListener('load', () => callback(reader.result!.toString()));
+  reader.readAsDataURL(img);
+}
+phoBelong = (dataItem: planList) => {
+  return {
+    planId:dataItem.planId,
+    operCode: dataItem.operCode,
+    blNo:dataItem.blNo,
+  };
+};
+checkphotoupload=(dataItem:planList)=>{
+  if (dataItem.planStatus=="S"){
+    return true
+  }
+  else {
+    return false
+  }
+}
+
+handleChange(info: { file: NzUploadFile }): void {
+  switch (info.file.status) {
+    case 'uploading':
+      this.loading = true;
+      break;
+    case 'done':
+      // Get this url from response in real world.
+      this.getBase64(info.file!.originFileObj!, (img: string) => {
+        this.loading = false;
+        console.log(img);
+        this.loadDataFromServer(
+          this.operCode,
+          this.pageIndex,
+          this.pageSize,
+          this.searchTerm,
+          [],
+          
+          
+        );
+      });
+      break;
+    case 'error':
+      this.msg.error('Network error');
+      this.loading = false;
+      break;
+  }
+}
 }

@@ -1,6 +1,3 @@
-<app-fuzzy-search (onSend)="onSend($event)"></app-fuzzy-search>
-
-<button nz-button nzType="primary" (click)="createForm()">新增</button>
 <div class="table-operations">
   <button nz-button (click)="resetFilters()">全部</button>
   <button nz-button (click)="setFilterAs('S')">预约成功</button>
@@ -23,9 +20,7 @@
     <tr>
       <th nzColumnKey="planId" nzWidth="110px">计划号</th>
       <th nzColumnKey="planTime" nzWidth="90px">预约时间</th>
-      <th nzColumnKey="expiryDate" nzWidth="70px">过期时间</th>
-      <th nzColumnKey="contSize" nzWidth="70px">尺寸</th>
-      <th nzColumnKey="contType" nzWidth="70px">箱型</th>
+      <th nzColumnKey="expTime" nzWidth="70px">过期时间</th>
       <th nzColumnKey="vessel" nzWidth="100px">船名</th>
       <th nzColumnKey="voyage" nzWidth="120px">航次</th>
       <th nzColumnKey="billNo" nzWidth="200px">提单号</th>
@@ -43,6 +38,7 @@
       <th nzColumnKey="paymentStatus" nzWidth="120px">缴费状态</th>
       <th nzColumnKey="documentPath" nzWidth="120px">提箱单图片</th>
       <th nzColumnKey="remark" nzWidth="120px">备注</th>
+      
       <th nzColumnKey="action" nzWidth="120px">操作</th>
     </tr>
   </thead>
@@ -51,43 +47,36 @@
       <td>{{ dataItem.planId }}</td>
       <td>{{ dataItem.planTime }}</td>
       <td>{{ dataItem.expiryDate }}</td>
-      <td>{{ dataItem.contSize }}</td>
-      <td>{{ dataItem.contType }}</td>
       <td>{{ dataItem.vesselName }}</td>
       <td>{{ dataItem.voyage }}</td>
       <td>{{ dataItem.blNo }}</td>
       <td>{{ dataItem.carGroupCode }}</td>
       <td>{{ dataItem.operCode }}</td>
-      <td>{{ dataItem.planStatus |planStatus}}</td>
+      <td>{{ dataItem.planStatus }}</td>
       <td>{{ dataItem.paymentStatus }}</td>
       <td>{{ dataItem.documentPath }}</td>
       <td>{{ dataItem.remark }}</td>
+
       <td>
-        <button
-          nz-button
-          nzType="primary"
-          nzGhost
-          nzShape="round"
-          nzDanger
-          (click)="deletePlan(dataItem)"
-        >
-          作废
-        </button>
-      
-        <nz-upload
-          nzAction="http://127.0.0.1:8000/photo/"
-          nzName="bill"
-          [nzBeforeUpload]='beforeUpload'
-          [nzData]='phoBelong(dataItem)'
-          (nzChange)="handleChange($event)"
-          [nzShowUploadList]="false"
-          *ngIf="checkphotoupload(dataItem)"
-        >
-          <button nz-button>
-            <i nz-icon nzType="upload"></i>
-            点击上传提单
+        <!-- <button
+            nz-button
+            nzType="primary"
+            nzGhost
+            nzShape="round"
+            nzDanger
+            (click)="deletePlan(dataItem)"
+          >
+            删除
           </button>
-        </nz-upload>
+          <button
+            nz-button
+            nzType="primary"
+            nzGhost
+            nzShape="round"
+            (click)="updatePlan(dataItem)"
+          >
+            编辑
+          </button> -->
       </td>
     </tr>
   </tbody>
